@@ -1,0 +1,77 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="papa-parse-script.html">
+
+<!--
+`papa-parse-datasource`
+Papa Parse datasource to utilize Papa Parse.
+
+@demo demo/index.html 
+-->
+
+<dom-module id="papa-parse-datasource">
+  <script>
+    Polymer({
+
+      is: 'papa-parse-datasource',
+
+      properties: {
+        delimiter: {
+          type: String,
+          value: ''
+        },
+        newline: {
+          type: String,
+          value: ''
+        },
+        header: {
+          type: Boolean,
+          value: false
+        },
+        dynamicTyping: {
+          type: Boolean,
+          value: false
+        },
+        preview: {
+          type: Number,
+          value: 0
+        },
+        encoding: {
+          type: String,
+          value: ''
+        },
+        worker: {
+          type: Boolean,
+          value: false
+        },
+        comments: {
+          type: Boolean,
+          value: false
+        },
+        skipEmptyLines: {
+          type: Boolean,
+          value: false
+        },
+      },
+
+      parseFile: function(file) {
+        Papa.parse(file, {
+          delimiter: this.delimiter,
+          newline: this.newline,
+          header: this.header,
+          dynamicTyping: this.dynamicTyping,
+          preview: this.preview,
+          encoding: this.encoding,
+          worker: this.worker,
+          comments: this.comments,
+          download: false,
+          skipEmptyLines: this.skipEmptyLines,
+          complete: this._complete.bind(this)
+        });
+      },
+      
+      _complete: function(results){
+        this.fire('complete', {result: results.data});
+      }
+    });
+  </script>
+</dom-module>
